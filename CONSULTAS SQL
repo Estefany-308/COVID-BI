@@ -1,0 +1,64 @@
+Para cambiar el nombre a la columna (ya que algunos nombres están muy largos), hay dos maneras:
+* Utilizando: columnaACambiar AS NuevoNombre... ejemplo COUNT(*) AS Total, month AS Meses_Del_Año
+* La otra no me acuerdo bien jajajs
+
+#### Promedio de hospitalizados  en los municipios del mes de Enero
+SELECT COUNT(*), MUNICIPIO FROM principal WHERE tipo_paciente LIKE '%Hospitalizado%' AND MONTH(fecha_ingreso) = 1 GROUP BY MUNICIPIO;
+
+
+#### ¿Cuántos contagios hay en total en cada municipio por mes?
+SELECT COUNT(*), municipio, MONTH(fecha_ingreso), YEAR(fecha_ingreso) FROM principal GROUP BY municipio, MONTH(fecha_ingreso);
+
+
+#### ¿Cuántas mujeres hospitalizadas por entidad federativa hay en el primer mes de enero? ¿Y 
+en el año 2020?
+// Primera pregunta (primer mes enero)
+SELECT COUNT(*), ENTIDAD_RES FROM principal WHERE genero LIKE '%mujer%' AND MONTH(fecha_ingreso) = 1 GROUP BY ENTIDAD_RES;
+
+// Segunda pregunta año 2020
+SELECT COUNT(*), ENTIDAD_RES FROM principal WHERE genero LIKE '%mujer%' AND YEAR(fecha_ingreso) = 2020 GROUP BY ENTIDAD_RES;
+
+
+#### ¿Promedio de edades en cada municipio en el año 2020
+SELECT entidad_res, municipio, AVG(edad) FROM principal WHERE YEAR(fecha_ingreso) = 2020 GROUP BY municipio;
+
+
+#### ¿Cuántas mujeres hospitalizadas  de nacionalidad mexicana hay?
+// Conociendo el total de mujeres
+SELECT COUNT(*), nacionalidad FROM principal WHERE nacionalidad LIKE '%Mexicana%';
+
+// A detalle (Todas las mujeres )
+SELECT nacionalidad, genero, edad, fecha_ingreso FROM principal WHERE nacionalidad LIKE '%Mexicana%' AND genero LIKE '%mujer%';
+
+
+#### Relación de tipo-paciente/género por año 2020 por entidad
+SELECT COUNT(*), entidad_res, genero, tipo_paciente FROM principal WHERE YEAR(fecha_ingreso) = 2020 GROUP BY genero, tipo_paciente, entidad_res;
+
+
+#### ¿Cuántos hombres ambulatorios  hay en cada municipio en el mes de Marzo?
+SELECT municipio, genero, COUNT(*) FROM principal WHERE genero LIKE '%hombre%' AND tipo_paciente LIKE '%Ambulatorio%' AND MONTH(fecha_ingreso) = 3 GROUP BY municipio;
+
+
+#### ¿Cuántos hombres están contagiados en Febrero por municipio?
+SELECT COUNT(*), genero, municipio, MONTH(fecha_ingreso) FROM principal WHERE genero LIKE '%hombre%' AND MONTH(fecha_ingreso) = 3 GROUP BY municipio;
+
+
+#### Total de hombres ambulatorios en los meses del año 2020
+SELECT COUNT(*), genero, MONTH(fecha_ingreso) FROM principal WHERE genero LIKE '%hombre%' AND tipo_paciente LIKE '%Ambulatorio%' AND YEAR(fecha_ingreso) = 2020 GROUP BY MONTH(fecha_ingreso);
+
+
+#### Total de mujeres ambulatorios en los meses del año 2020
+SELECT COUNT(*), genero, MONTH(fecha_ingreso) FROM principal WHERE genero LIKE '%mujer%' AND tipo_paciente LIKE '%Ambulatorio%' AND YEAR(fecha_ingreso) = 2020 GROUP BY MONTH(fecha_ingreso);
+
+
+#### Total de mujeres  hospitalizadas en los meses del año 2020
+SELECT COUNT(*), genero, MONTH(fecha_ingreso) FROM principal WHERE genero LIKE '%mujer%' AND tipo_paciente LIKE '%Ambulatorio%' AND YEAR(fecha_ingreso) = 2020 GROUP BY MONTH(fecha_ingreso);
+
+
+#### Promedio de hospitalizados en los municipios del mes de Febrero en Tamaulipas
+SELECT COUNT(*), entidad_res, municipio, genero FROM principal WHERE genero LIKE '%mujer%' AND MONTH(fecha_ingreso) = 2 AND entidad_res LIKE '%Tamaulipas%' GROUP BY municipio;
+
+
+#### ¿Cuántos hombres hospitalizados de nacionalidad mexicana hay en Enero?
+SELECT COUNT(*), nacionalidad, genero, MONTH(fecha_ingreso) FROM principal WHERE genero LIKE '%hombre%' GROUP BY MONTH(fecha_ingreso);
+
